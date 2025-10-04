@@ -2,6 +2,7 @@ package br.com.app.controller;
 
 import java.math.BigDecimal;
 
+import br.com.app.repositories.ExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class ExchangeController {
 	private ExchangeRepository repository;
 	
 	@GetMapping(value = "/{amount}/{from}/{to}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Exchange getExchange(@PathVariable String amount, 
+	public Exchange getExchange(@PathVariable BigDecimal amount,
 								@PathVariable String from, 
 								@PathVariable String to) {
 
@@ -31,11 +32,10 @@ public class ExchangeController {
 		if(exchange == null) {
 			throw new RuntimeException("Currency not found");
 		}
-		BigDecimal  convertionFactor = exchange.getConvertionFactor();
+		BigDecimal convertionFactor = exchange.getConversionFactor();
 		BigDecimal converttedValue = convertionFactor.multiply(amount);
-		exchange.setConverttedValue(converttedValue);
-		exchange.setPort(instanceInfoService.retriveServerPort());
-		exchange.setEnvironment("PORT: " + instanceInfoService.getEnvironment());
+		exchange.setConvertedValue(converttedValue);
+		exchange.setEnvironment("PORT: " + instanceInfoService.retriveServerPort());
 		return exchange;
 	}
 }

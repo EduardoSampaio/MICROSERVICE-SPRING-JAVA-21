@@ -3,8 +3,8 @@ package br.com.app.book.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -14,8 +14,7 @@ import java.util.Date;
 @Getter @Setter
 @Entity
 public class Book implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
