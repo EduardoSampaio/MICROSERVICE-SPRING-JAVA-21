@@ -6,7 +6,7 @@ spring:
     name: exchange-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/exchange-service
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/exchange-service}
     username: root
     password:
   jpa:
@@ -16,10 +16,20 @@ spring:
       hibernate:
     show-sql: false
     open-in-view: false
+  management:
+    tracing:
+      sampling:
+        probability: 1.0
+  zipkin:
+    base-url: ${SPRING_ZIPKIN_BASEURL:http://localhost:9411}
 
 eureka:
   client:
-    defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE}
+    initial-instance-info-replication-interval-seconds: 10
 
 springdoc:
   api-docs:
